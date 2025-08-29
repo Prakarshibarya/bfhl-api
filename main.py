@@ -6,17 +6,16 @@ import os, re
 
 app = FastAPI()
 
-# ==== YOUR DETAILS ====
+
 FULL_NAME = os.getenv("FULL_NAME", "prakarshi baryas")
 DOB_DDMMYYYY = os.getenv("DOB_DDMMYYYY", "15022004")
 EMAIL = os.getenv("EMAIL", "prakarshibarya@gmail.com")
 ROLL_NUMBER = os.getenv("ROLL_NUMBER", "22BCE0473")
 
-# ==== MODELS ====
+
 class InputModel(BaseModel):
     data: List[str]
 
-# ==== HELPERS ====
 int_pat = re.compile(r"^[+-]?\d+$")
 def is_int_str(s: str) -> bool: return bool(int_pat.fullmatch(s.strip()))
 
@@ -28,7 +27,7 @@ def alternating_caps_of_reversed(s: str) -> str:
             upper = not upper
     return "".join(out)
 
-# ==== ROOT UI (front page) ====
+#ui
 @app.get("/", response_class=HTMLResponse)
 def root():
     return """
@@ -74,8 +73,7 @@ async function run(){
 </body>
 </html>
 """
-
-# ==== API ====
+#api
 @app.post("/bfhl")
 def bfhl(payload: InputModel):
     raw_items = [str(x) for x in payload.data]
